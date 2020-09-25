@@ -8,3 +8,5 @@ web/*
 configcreator/dist/*
 configcreator/node_modules/
 node_modules/
+
+.*/
