@@ -1,0 +1,6 @@
+p {
+    margin: 5px 5px;
+}
+.container {
+    justify-content: initial !important;
+}

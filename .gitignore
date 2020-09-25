@@ -1,0 +1,10 @@
+keys.txt
+config.js
+
+data/*
+images/*
+web/*
+
+configcreator/dist/*
+configcreator/node_modules/
+node_modules/

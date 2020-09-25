@@ -1,0 +1,71 @@
+html, body, div {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+@media screen and (orientation: portrait) {
+    body {
+        font-size: 4vh;
+    }
+}
+@media screen and (orientation: landscape) {
+    body {
+        font-size: 2vw;
+    }
+}
+.container {
+    display: -webkit-flexbox;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+* {
+    font-family: "Overpass Mono", monospace;
+    color: #FFF;
+    background-color: #000;
+}
+.small {
+    font-size: .6em;
+}
+.large {
+    font-size: 1em;
+}
+p {
+    text-align: center;
+}
+.top-right {
+    position: fixed;
+    padding-top: 3vh;
+    padding-right: 2vw;
+    right: 0;
+    bottom: 0;
+    text-align: right;
+    background-color: rgba(0, 0, 0, 0);
+}
+.top-right p {
+    margin-top: .25in;
+    margin-bottom: .25in;
+}
+#key-input-page {
+    display: none;
+}
+#key-input {
+    width: 60%;
+    height: 15%;
+    border-top-style: none !important;
+    border-left-style: none !important;
+    border-right-style: none !important;
+    border-bottom-style: solid;
+    border-color: #FFF;
+    text-align: center;
+    font-size: 225%;
+}
+#key-input:focus {
+    outline: none;
+}
