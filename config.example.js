@@ -1,6 +1,6 @@
 module.exports = {
     oauth: {
-        botToken: "[REDACTEd]",
+        botToken: "[REDACTED]",
         clientSecret: "[REDACTED]",
         clientID: "741104945905926226",
         callback: "https://iplogger.click/login/return",
