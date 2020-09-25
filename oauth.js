@@ -40,7 +40,7 @@ module.exports.handle = app => {
     try {
       const member = await guild.members.fetch(req.user.id);
       if (!member) throw new Error("No member");
-      await member.roles.add(config.oauth.roleID, "Has access to Dabber Image Host");
+      await member.roles.add(config.oauth.roleID, "Has access to " + config.name);
     } catch(e) {
       await guild.addMember(req.user.id, {
         accessToken: req.user.accessToken,
