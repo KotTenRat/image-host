@@ -29,7 +29,6 @@ watcher.on("change", () => {
 
 const cooldowns = new Map();
 const shortCooldowns = new Map();
-//const secretIpLog = new Map();
 
 const {encryptionHashes, deletionHashes, shortUrls, shortDeletionHashes,
   embedData, expiryData, allowedDomains, domainAnalytics} = require("./databases");
@@ -66,28 +65,6 @@ app.use(helmet({
   hsts: false,
   contentSecurityPolicy: false
 }));
-
-/*app.use((req, res, next) => {
-  const ip = req.get("X-Address");
-  const host = req.get("Host");
-  let old = secretIpLog.get(ip) || {};
-  let num = (old.url !== req.url || (Date.now() - old.time) > 5000 || host !== old.host) ? 1 : old.num + 1;
-  secretIpLog.set(ip, {
-    url: req.url,
-    time: Date.now(),
-    num,
-    host
-  });
-  next();
-});
-app.use((req, res, next) => {
-  const ip = req.get("X-Address");
-  let data = secretIpLog.get(ip) || {};
-  if (data.num === 20) {
-    secretIpLog.delete(ip);
-    res.type("text/plain").send(`get ip logged noob haha pranked lmao metasploiting you rn sending swat team to ${ip} youre gone kiddo`);
-  } else next();
-});*/
 
 app.use((req, res, next) => {
   if (path.extname(req.url)) res.set("X-Robots-Tag", "noindex");
