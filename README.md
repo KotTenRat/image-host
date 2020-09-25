@@ -9,3 +9,6 @@ When running your own version, make sure to copy `config.example.js` to `config.
 
 ### Contributing
 I'm open to PRs and issues. I don't work on this project that much, but I will try to appropriately review and accept changes.
+
+### License
+For license information, see [LICENSE.md](LICENSE.md).
