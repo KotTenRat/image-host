@@ -12,6 +12,6 @@ module.exports = {
         keyLengthLimit: 1024,
         uploadRatelimit: 2500
     },
-    name: "Dabber Image Host",
+    name: "Dapper Image Host",
     port: 12055
 };
