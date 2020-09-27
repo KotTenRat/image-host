@@ -4,6 +4,7 @@ config.js
 data/*
 images/*
 web/*
+web-src/config/
 
 configcreator/dist/*
 configcreator/node_modules/
