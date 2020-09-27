@@ -307,7 +307,7 @@ app.get(["/:encKey/:name", "/raw/:encKey/:name"], async (req, res, next) => {
       return res.type("text/html").send(`<!DOCTYPE html>
 <html prefix="og: http://ogp.me/ns#">
 <head>
-<meta property="og:title" content="${escapeHTML(embed.text)}">
+<meta property="og:title" content="${escapeHTML(embed.text || config.name)}">
 <meta property="theme-color" content="#${("000000" + embed.color.toString(16).toUpperCase()).slice(-6)}">
 <meta property="og:image" content="https://${escapeHTML(req.get("Host"))}/raw/${req.params.encKey}/${req.params.name}">
 <meta property="twitter:card" content="summary_large_image">
@@ -373,7 +373,7 @@ app.get(["/:name", "/raw/:name"], async (req, res, next) => {
       return res.type("text/html").send(`<!DOCTYPE html>
 <html prefix="og: http://ogp.me/ns#">
 <head>
-<meta property="og:title" content="${escapeHTML(embed.text)}">
+<meta property="og:title" content="${escapeHTML(embed.text || config.name)}">
 <meta property="theme-color" content="#${("000000" + embed.color.toString(16).toUpperCase()).slice(-6)}">
 <meta property="og:image" content="https://${req.get("Host")}/raw/${req.params.name}">
 <meta property="twitter:card" content="summary_large_image">
