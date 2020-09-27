@@ -163,7 +163,7 @@ module.exports = {
         Parameters: {},
         Headers: {},
         Body: "Binary",
-        Name: "dabber image host"
+        Name: "dapper image host"
       };
       if (this.apiKey) obj.Headers.Authorization = this.apiKey;
       let domain;
