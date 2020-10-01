@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ."
   },
-  "author": "dabber#0666",
+  "author": "dapper#0666",
   "license": "UNLICENSED",
   "dependencies": {
     "clean-css": "^4.2.3",
