@@ -297,7 +297,7 @@ app.get("/delete-short/:key/:name", async (req, res) => {
   res.redirect("/deleted-short");
 });
 
-app.get(["/:encKey/:name", "/:encKey/:name"], async (req, res, next) => {
+app.get(["/:encKey/:name", "/raw/:encKey/:name"], async (req, res, next) => {
   try {
     const encryptionHash = encryptionHashes.get(req.params.name);
     if (!encryptionHash) return next();
