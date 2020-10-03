@@ -297,7 +297,7 @@ app.get("/delete-short/:key/:name", async (req, res) => {
   res.redirect("/deleted-short");
 });
 
-app.get(["/:encKey/:name", "/raw/:encKey/:name"], async (req, res, next) => {
+app.get(["/:encKey/:name", "/:encKey/:name"], async (req, res, next) => {
   try {
     const encryptionHash = encryptionHashes.get(req.params.name);
     if (!encryptionHash) return next();
@@ -375,7 +375,7 @@ app.get(["/:name", "/raw/:name"], async (req, res, next) => {
 <head>
 <meta property="og:title" content="${escapeHTML(embed.text || config.name)}">
 <meta property="theme-color" content="#${("000000" + embed.color.toString(16).toUpperCase()).slice(-6)}">
-<meta property="og:image" content="https://${req.get("Host")}/raw/${req.params.name}">
+<meta property="og:image" content="https://${escapeHTML(req.get("Host"))}/raw/${req.params.name}">
 <meta property="twitter:card" content="summary_large_image">
 <meta property="og:description" content="Uploaded at ${embed.uploadedAt}">
 </head>
