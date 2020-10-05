@@ -15,6 +15,7 @@ Simply cloning this repository will not create a completely ready-to-use self-ho
   These keys will provide access to the API.
 - Go to the `configcreator` directory, run `npm run build` to build the Vue files, then copy the resulting `dist` files (along with the included HTML and CSS) files into a new directory, `web-src/config`.
 - Run `npm run build-web` to minify the web files. This should create a `web` directory. Alternatively, if you prefer not minifying your files (why?), just copy the `web-src` directory to `web`.
+- Create an `images` folder in the root of the project.
 - Don't forget that this whole time, you should `npm i` the dependencies.
 
 ### Contributing
