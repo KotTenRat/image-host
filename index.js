@@ -21,17 +21,31 @@ const updateKeys = () => {
   });
 };
 updateKeys();
-const watcher = fs.watch("keys.txt");
-watcher.on("change", () => {
+const keyWatcher = fs.watch("keys.txt");
+keyWatcher.on("change", () => {
   updateKeys();
   console.log("Reloaded keys!");
 });
+
+let domains = [];
+const updateDomains = () => {
+  fs.readFile("domains.txt", (err, buf) => {
+    if (err) return console.error(err);
+    domains = buf.toString().split("\n").map(d => d.trim()).filter(d => d);
+  });
+};
+const domainWatcher = fs.watch("domains.txt");
+domainWatcher.on("change", () => {
+  updateDomains();
+  console.log("Updated domains!");
+});
+updateDomains();
 
 const cooldowns = new Map();
 const shortCooldowns = new Map();
 
 const {encryptionHashes, deletionHashes, shortUrls, shortDeletionHashes,
-  embedData, expiryData, allowedDomains, domainAnalytics} = require("./databases");
+  embedData, expiryData, domainAnalytics} = require("./databases");
 const oauth = require("./oauth");
 const {deleteFile} = require("./funcs");
 
@@ -430,6 +444,10 @@ app.get("/:name", (req, res, next) => {
   const url = shortUrls.get(req.params.name);
   if (!url) return next();
   res.redirect(url);
+});
+
+app.get("/api/domains", (req, res) => {
+  res.json(domains);
 });
 
 app.use((req, res) => {

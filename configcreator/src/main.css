@@ -151,3 +151,11 @@ code {
     white-space: pre-wrap;
     word-break: break-all;
 }
+
+.button {
+    margin-top: 3vh;
+    border: solid 1px white;
+    padding: 5px;
+    background-color: #222;
+    outline-style: none;
+}

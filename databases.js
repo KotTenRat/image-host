@@ -6,5 +6,4 @@ module.exports.shortUrls = new Enmap({name: "shortUrls"});
 module.exports.shortDeletionHashes = new Enmap({name: "shortDeletionHashes"});
 module.exports.embedData = new Enmap({name: "embedData"});
 module.exports.expiryData = new Enmap({name: "expiryData"});
-module.exports.allowedDomains = new Enmap({name: "allowedDomains"});
 module.exports.domainAnalytics = new Enmap({name: "domainAnalytics"});

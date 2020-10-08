@@ -4,6 +4,9 @@
       <input type="text" v-model="apiKey" placeholder="API Key" :class="apiKey ? '' : 'bad'"
       @keydown.space.prevent="">
     </p>
+    <p v-if="apiKey && allDomainsNotClicked">
+      <input type="button" @click="allDomainsClick" value="Use All Domains" class="button">
+    </p>
     <p v-if="apiKey" v-for="domain of domains">
       <input ref="domains" type="text" v-model="domain.value" placeholder="Domain"
              @keydown.enter.passive="domainKeypress" :class="(!domain.value && domain.required) ? 'bad' : ''"
@@ -87,7 +90,8 @@ module.exports = {
     expireAfter: "",
     showLink: false,
     compatSLoD: false,
-    embedTimezone: ""
+    embedTimezone: "",
+    allDomainsNotClicked: true
   }),
   methods: {
     domainKeypress(e) {
@@ -152,6 +156,17 @@ module.exports = {
         const newNum = parseInt(newStr);
         if (!Number.isInteger(newNum) || newNum > 23 || newNum < -23) return e.preventDefault();
       }
+    },
+    allDomainsClick() {
+      this.allDomainsNotClicked = false;
+      fetch("/api/domains").then(r => r.json()).then(j => {
+        let domainsMapped = j.map(d => ({
+          required: false,
+          value: d
+        }));
+        if (domainsMapped[0]) domainsMapped[0].required = true;
+        this.domains = domainsMapped;
+      });
     }
   },
   computed: {
