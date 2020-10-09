@@ -65,10 +65,22 @@
     <pre v-highlightjs="json" style="margin-top: 10vh;">
       <code class="json"></code>
     </pre>
+    <p>
+      <input type="button" @click="downloadClick" class="button" value="Download Config">
+    </p>
   </div>
 </template>
 
 <script>
+function download(data, name) {
+  const url = URL.createObjectURL(new Blob([data], {type: "this/is-not-a-valid-mime-type"}));
+  let a = document.createElement("a");
+  a.href = url;
+  a.download = name;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 module.exports = {
   name: "App",
   data: () => ({
@@ -167,6 +179,9 @@ module.exports = {
         if (domainsMapped[0]) domainsMapped[0].required = true;
         this.domains = domainsMapped;
       });
+    },
+    downloadClick() {
+      download(this.json, "dapper image host.sxcu");
     }
   },
   computed: {
