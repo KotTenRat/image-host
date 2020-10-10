@@ -7,10 +7,12 @@
     <p v-if="apiKey && allDomainsNotClicked">
       <input type="button" @click="allDomainsClick" value="Use All Domains" class="button">
     </p>
-    <p v-if="apiKey" v-for="domain of domains">
+    <p v-if="apiKey" v-for="(domain, index) of domains" class="fill">
       <input ref="domains" type="text" v-model="domain.value" placeholder="Domain"
-             @keydown.enter.passive="domainKeypress" :class="(!domain.value && domain.required) ? 'bad' : ''"
+             @keydown.enter.passive="domainKeypress" :class="domain.value ? 'fill-priority' : 'bad fill-priority'"
       @keydown.space.prevent="">
+      <input type="button" value="Add" @click="addDomainClick" class="button">
+      <input v-if="!domain.required" type="button" value="Remove" @click="removeDomainClick" :data-index="index" class="button">
     </p>
     <p v-if="domains[0].value">
       <label>
@@ -106,13 +108,16 @@ module.exports = {
     allDomainsNotClicked: true
   }),
   methods: {
+    addDomain() {
+      this.domains.push({
+        value: "",
+        required: false
+      });
+      this.pendingDomainUpdate = true;
+    },
     domainKeypress(e) {
       if (e.currentTarget.value) {
-        this.domains.push({
-          value: "",
-          required: false
-        });
-        this.pendingDomainUpdate = true;
+        this.addDomain();
       }
     },
     nameLengthKeypress(e) {
@@ -182,6 +187,12 @@ module.exports = {
     },
     downloadClick() {
       download(this.json, "dapper image host.sxcu");
+    },
+    removeDomainClick(e) {
+      this.domains.splice(e.currentTarget.getAttribute("data-index"), 1);
+    },
+    addDomainClick() {
+      this.addDomain();
     }
   },
   computed: {

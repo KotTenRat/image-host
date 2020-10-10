@@ -159,3 +159,16 @@ code {
     background-color: #222;
     outline-style: none;
 }
+
+.fill {
+    display: flex;
+}
+.fill-priority {
+    flex-grow: 1;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+.fill > * {
+    margin-left: 2%;
+    margin-right: 2%;
+}
