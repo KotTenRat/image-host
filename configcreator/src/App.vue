@@ -39,6 +39,11 @@
     <p v-if="embed">
       <input type="text" placeholder="Timezone" v-model="embedTimezone" @keydown="embedTimezoneKeydown">
     </p>
+    <p v-if="embed">
+      <label>
+        <input type="checkbox" v-model="embedMDY" style="margin-top: 3vh;">M/D/Y Format
+      </label>
+    </p>
     <p v-if="domains[0].value && false">
       <label>
         <input type="checkbox" v-model="expire" style="margin-top: 3vh;">Expire
@@ -99,6 +104,7 @@ module.exports = {
     embed: false,
     embedColor: "#000000",
     embedText: "",
+    embedMDY: false
     expire: false,
     expireUses: "",
     expireAfter: "",
@@ -236,6 +242,7 @@ module.exports = {
         obj.Parameters.embedColor = this.embedColor;
         if (this.embedText) obj.Parameters.embedText = this.embedText;
         if (this.embedTimezone) obj.Parameters.embedTimezone = this.embedTimezone;
+        if (this.embedMDY) obj.Parameters.embedMDY = "yes";
       }
       if (this.expire) {
         obj.Parameters.expire = "yes";

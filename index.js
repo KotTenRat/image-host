@@ -168,11 +168,12 @@ app.post("/upload", (req, res, next) => {
         embed.color = num;
       }
     }
+    const timeFormat = req.query.embedMDY === "yes" ? "h:mm A M/D/y" : "h:mm A D/M/y";
     if (req.query.embedTimezone) {
       const offset = parseInt(req.query.embedTimezone);
       if (!Number.isInteger(offset) || offset < -23 || offset > 23) return res.status(400).json({success: false, error: "Invalid timezone offset!"});
-      embed.uploadedAt = moment().add(offset, "hours").format("h:mm A D/M/y");
-    } else embed.uploadedAt = moment().format("h:mm A D/M/y");
+      embed.uploadedAt = moment().add(offset, "hours").format(timeFormat);
+    } else embed.uploadedAt = moment().format(timeFormat);
   }
   let expiry;
   if (req.query.expire === "yes") {
