@@ -104,7 +104,7 @@ module.exports = {
     embed: false,
     embedColor: "#000000",
     embedText: "",
-    embedMDY: false
+    embedMDY: false,
     expire: false,
     expireUses: "",
     expireAfter: "",
