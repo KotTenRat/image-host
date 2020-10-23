@@ -4,7 +4,7 @@ window.onload = async function() {
     const domainContainer = document.getElementById("domain-container");
     for (const domain of await domains) {
         const a = document.createElement("a");
-        a.href = `https://${a}/`;
+        a.href = `https://${domain}/`;
         a.innerText = domain;
         const p = document.createElement("p");
         p.appendChild(a);
