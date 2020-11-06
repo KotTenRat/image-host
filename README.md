@@ -1,7 +1,7 @@
 # Dapper Image Host
 Dapper Image Host is an open-source image host featuring encryption, embedding (on Discord and other social media), and Discord OAuth2 integration.
 
-There is a live version of this software running [here](https://dabber-image.host/).
+There is no more live version of this software running :(
 
 Feel free to fork this, host your own version, or whatever you want - this is open source, after all.
 
