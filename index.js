@@ -17,7 +17,7 @@ const updateKeys = () => {
     if (err) return console.error(err);
     const keys = buf.toString().split("\n").map(keyWithComment => keyWithComment.split("#")[0].trim());
     apiKeys = keys;
-    oauth.updateKeys(keys);
+    if (config.oauth) oauth.updateKeys(keys);
   });
 };
 updateKeys();
@@ -46,8 +46,8 @@ const shortCooldowns = new Map();
 
 const {encryptionHashes, deletionHashes, shortUrls, shortDeletionHashes,
   embedData, expiryData, domainAnalytics} = require("./databases");
-const oauth = require("./oauth");
 const {deleteFile} = require("./funcs");
+const oauth = config.oauth ? require("./oauth") : null;
 
 const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-"; // This has to be 64 characters long.
 const cryptoRandomStr = size => {
@@ -85,7 +85,9 @@ app.use((req, res, next) => {
   next();
 });
 
-oauth.handle(app);
+if (oauth !== null) {
+  oauth.handle(app);
+}
 
 app.use(express.static("web"));
 
