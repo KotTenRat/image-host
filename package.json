@@ -19,6 +19,7 @@
     "aes-js": "^3.1.2",
     "argon2": "^0.26.2",
     "better-sqlite3": "^7.1.0",
+    "chokidar": "^3.5.1",
     "discord.js": "^12.3.1",
     "enmap": "^5.4.1",
     "express": "^4.17.1",

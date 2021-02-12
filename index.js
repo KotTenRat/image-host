@@ -10,6 +10,7 @@ const multer = require("multer");
 const helmet = require("helmet");
 const config = require("./config");
 const {escape: escapeHTML} = require("html-escaper");
+const chokidar = require("chokidar");
 
 let apiKeys = [];
 const updateKeys = () => {
@@ -21,7 +22,7 @@ const updateKeys = () => {
   });
 };
 updateKeys();
-const keyWatcher = fs.watch("keys.txt");
+const keyWatcher = chokidar.watch("keys.txt");
 keyWatcher.on("change", () => {
   updateKeys();
   console.log("Reloaded keys!");
@@ -34,7 +35,7 @@ const updateDomains = () => {
     domains = buf.toString().split("\n").map(d => d.trim()).filter(d => d);
   });
 };
-const domainWatcher = fs.watch("domains.txt");
+const domainWatcher = chokidar.watch("domains.txt");
 domainWatcher.on("change", () => {
   updateDomains();
   console.log("Updated domains!");
