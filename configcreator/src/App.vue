@@ -14,7 +14,7 @@
       <input type="button" value="Add" @click="addDomainClick" class="button">
       <input v-if="!domain.required" type="button" value="Remove" @click="removeDomainClick" :data-index="index" class="button">
     </p>
-    <p v-if="domains[0].value">
+    <p v-if="domains[0].value && apiKey">
       <label>
         <input type="checkbox" v-model="encryption" style="margin-top: 3vh;">Encryption
       </label>
@@ -23,7 +23,7 @@
       <input type="text" v-model="encKey" placeholder="Key / Key Length" @keydown="keyLengthKeypress"
       @keydown.space.prevent="">
     </p>
-    <p v-if="domains[0].value">
+    <p v-if="domains[0].value && apiKey">
       <label>
         <input type="checkbox" v-model="embed" style="margin-top: 3vh;">Embed
       </label>
@@ -44,7 +44,7 @@
         <input type="checkbox" v-model="embedMDY" style="margin-top: 3vh;">M/D/Y Format
       </label>
     </p>
-    <p v-if="domains[0].value && false">
+    <p v-if="domains[0].value && enableExpire && apiKey">
       <label>
         <input type="checkbox" v-model="expire" style="margin-top: 3vh;">Expire
       </label>
@@ -55,7 +55,7 @@
     <p v-if="expire">
       <input type="text" v-model="expireAfter" placeholder="MS before expire" :class="(!expireAfter && !expireUses) ? 'bad' : ''" @keydown="expireAfterKeydown">
     </p>
-    <p v-if="domains[0].value">
+    <p v-if="domains[0].value && apiKey">
       <label>
         <input type="checkbox" v-model="showLink" style="margin-top: 3vh;">Show Link on Discord
       </label>
@@ -65,7 +65,7 @@
         <input type="checkbox" v-model="compatSLoD" style="margin-top: 3vh;">Compatibility SLoD
       </label>
     </p>
-    <p v-if="domains[0].value">
+    <p v-if="domains[0].value && apiKey">
       <input type="text" v-model="nameLength" @keydown="nameLengthKeypress" placeholder="Name Length" :class="nameLengthBad ? 'bad' : ''"
       @keydown.space.prevent="">
     </p>
@@ -79,6 +79,8 @@
 </template>
 
 <script>
+const config = require("./config");
+
 function download(data, name) {
   const url = URL.createObjectURL(new Blob([data], {type: "this/is-not-a-valid-mime-type"}));
   let a = document.createElement("a");
@@ -111,7 +113,8 @@ module.exports = {
     showLink: false,
     compatSLoD: false,
     embedTimezone: "",
-    allDomainsNotClicked: true
+    allDomainsNotClicked: true,
+    enableExpire: config.enableExpire
   }),
   methods: {
     addDomain() {
@@ -210,7 +213,7 @@ module.exports = {
         Parameters: {},
         Headers: {},
         Body: "Binary",
-        Name: "dapper image host"
+        Name: config.name
       };
       if (this.apiKey) obj.Headers.Authorization = this.apiKey;
       let domain;
@@ -219,11 +222,11 @@ module.exports = {
         obj.Parameters.random = this.domains.map(d => d.value).join(",");
       } else domain = this.domains[0].value;
       if (domain) {
-        obj.RequestURL = `https://${this.domains[0].value}/upload`;
-        obj.DeletionURL = `https://${domain}/delete/$json:deletionKey$/$json:name$`;
+        obj.RequestURL = `${location.protocol}//${this.domains[0].value}/upload`;
+        obj.DeletionURL = `${location.protocol}//${domain}/delete/$json:deletionKey$/$json:name$`;
         obj.URL = ((this.showLink && !this.compatSLoD) ? "\u200C" : "")
-            + (this.encryption ? `https://${domain}/$json:encryptionKey$/$json:name$`
-                : `https://${domain}/$json:name$`) +
+            + (this.encryption ? `${location.protocol}//${domain}/$json:encryptionKey$/$json:name$`
+                : `${location.protocol}//${domain}/$json:name$`) +
             ((this.showLink && this.compatSLoD) ? "# \u200C" : "");
       }
       if (this.encryption) {

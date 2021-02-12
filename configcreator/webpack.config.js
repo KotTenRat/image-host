@@ -3,7 +3,7 @@ const {VueLoaderPlugin} = require("vue-loader");
 const merge = require("webpack-merge").default;
 
 module.exports = (env, argv) => {
-    let thing = merge({
+    return merge({
         entry: "./src/main.js",
         output: {
             filename: "main.js",
@@ -32,5 +32,4 @@ module.exports = (env, argv) => {
             new VueLoaderPlugin()
         ]
     }, require(argv.mode === "development" ? "./webpack.config.dev.js" : "./webpack.config.prod.js"));
-    return thing;
-}
+};

@@ -9,6 +9,7 @@ web-src/config/
 
 configcreator/dist/*
 configcreator/node_modules/
+configcreator/src/config.js
 node_modules/
 
 .*/
