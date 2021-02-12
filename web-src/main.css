@@ -3,16 +3,19 @@ html, body, div {
     padding: 0;
     margin: 0;
 }
+
 @media screen and (orientation: portrait) {
     body {
         font-size: 4vh;
     }
 }
+
 @media screen and (orientation: landscape) {
     body {
         font-size: 2vw;
     }
 }
+
 .container {
     display: -webkit-flexbox;
     display: -ms-flexbox;
@@ -25,20 +28,25 @@ html, body, div {
     justify-content: center;
     flex-direction: column;
 }
+
 * {
     font-family: "Overpass Mono", monospace;
     color: #FFF;
     background-color: #000;
 }
+
 .small {
     font-size: .6em;
 }
+
 .large {
     font-size: 1em;
 }
+
 p {
     text-align: center;
 }
+
 .top-right {
     position: fixed;
     padding-top: 3vh;
@@ -48,14 +56,17 @@ p {
     text-align: right;
     background-color: rgba(0, 0, 0, 0);
 }
+
 .top-right p {
     margin-top: .25in;
     margin-bottom: .25in;
 }
-#key-input-page {
+
+#key-input-page, #subdomain-add-page {
     display: none;
 }
-#key-input {
+
+input[type="text"] {
     width: 60%;
     height: 15%;
     border-top-style: none !important;
@@ -66,6 +77,16 @@ p {
     text-align: center;
     font-size: 225%;
 }
-#key-input:focus {
+
+input[type="text"]:focus {
     outline: none;
+}
+
+.button {
+    margin-top: 3vh;
+    border: solid 1px white;
+    padding: 5px;
+    background-color: #222;
+    outline-style: none;
+    font-size: 225%;
 }

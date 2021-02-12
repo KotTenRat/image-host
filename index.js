@@ -18,7 +18,8 @@ const updateKeys = () => {
     if (err) return console.error(err);
     const keys = buf.toString().split("\n").map(keyWithComment => keyWithComment.split("#")[0].trim());
     apiKeys = keys;
-    if (config.oauth) oauth.updateKeys(keys);
+    if (oauth) oauth.updateKeys(keys);
+    if (cloudflare) cloudflare.updateKeys(keys);
   });
 };
 updateKeys();
@@ -33,6 +34,7 @@ const updateDomains = () => {
   fs.readFile("domains.txt", (err, buf) => {
     if (err) return console.error(err);
     domains = buf.toString().split("\n").map(d => d.trim()).filter(d => d);
+    if (cloudflare) cloudflare.updateDomains(domains);
   });
 };
 const domainWatcher = chokidar.watch("domains.txt");
@@ -49,6 +51,7 @@ const {encryptionHashes, deletionHashes, shortUrls, shortDeletionHashes,
   embedData, expiryData, domainAnalytics} = require("./databases");
 const {deleteFile} = require("./funcs");
 const oauth = config.oauth ? require("./oauth") : null;
+const cloudflare = config.cloudflare ? require("./cloudflare") : null;
 
 const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-"; // This has to be 64 characters long.
 const cryptoRandomStr = size => {
@@ -88,6 +91,9 @@ app.use((req, res, next) => {
 
 if (oauth !== null) {
   oauth.handle(app);
+}
+if (cloudflare !== null) {
+  cloudflare.handle(app);
 }
 
 app.use(express.static("web"));
@@ -323,7 +329,7 @@ app.get(["/:encKey/:name", "/raw/:encKey/:name"], async (req, res, next) => {
     const embed = embedData.get(req.params.name);
     if (!req.url.startsWith("/raw/") && embed) {
       return res.type("text/html").send(`<!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns#">
+<html lang="en" prefix="og: http://ogp.me/ns#">
 <head>
 <meta property="og:title" content="${escapeHTML(embed.text || config.name)}">
 <meta property="theme-color" content="#${("000000" + embed.color.toString(16).toUpperCase()).slice(-6)}">

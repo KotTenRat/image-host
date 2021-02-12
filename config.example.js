@@ -1,11 +1,17 @@
 module.exports = {
-    oauth: { // replace oauth with false if you don't want to integrate OAuth into your instance
+    oauth: { // replace this value with false if you don't want to integrate OAuth into your instance
         botToken: "[REDACTED]",
         clientSecret: "[REDACTED]",
-        clientID: "741104945905926226",
-        callback: "https://iplogger.click/login/return",
-        guildID: "755484087514300486",
-        roleID: "755484169064284334"
+        clientID: "123",
+        callback: "https://your-main.domain/login/return",
+        guildID: "234",
+        roleID: "345"
+    },
+    cloudflare: { // replace this value with false if you don't want to integrate Cloudflare subdomains into your instance
+        ip: "1.1.1.1", // replace this with your server/hosting provider's IP
+        email: "example@gmail.com",
+        key: "0123456789abcdef",
+        ratelimit: 1000 * 60 * 60 // set to 0 for no ratelimit
     },
     uploading: {
         sizeLimit: 25 * 1024 * 1024, // put at Infinity for no limit
