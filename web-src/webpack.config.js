@@ -1,7 +1,8 @@
 const {VueLoaderPlugin} = require("vue-loader");
 const HtmlPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-const ResourceHintsPlugin = require("resource-hints-webpack-plugin");
+const PreloadPlugin = require("@vue/preload-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const path = require("path");
 const purgecss = require("@fullhuman/postcss-purgecss");
@@ -28,7 +29,7 @@ module.exports = (env, argv) => ({
                 test: /\.css$/i,
                 use: [
                     "vue-style-loader",
-                    "style-loader",
+                    argv.mode === "production" ? MiniCssExtractPlugin.loader : "style-loader",
                     "css-loader",
                     {
                         loader: "postcss-loader",
@@ -96,13 +97,17 @@ module.exports = (env, argv) => ({
     ).concat([
         new VueLoaderPlugin()
     ]).concat(argv.mode === "production" ? [
-        new ResourceHintsPlugin()
+        new PreloadPlugin(),
+        new MiniCssExtractPlugin()
     ] : []),
 
     optimization: {
         minimize: argv.mode === "production",
         minimizer: [
             new TerserPlugin()
-        ]
+        ],
+        splitChunks: {
+            chunks: argv.mode === "production" ? "all" : "async"
+        }
     }
 });

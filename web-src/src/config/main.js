@@ -1,7 +1,14 @@
 const Vue = require("vue").default;
 const App = require("./App.vue").default;
-const VueHighlightJS = require("vue-highlightjs");
-Vue.use(VueHighlightJS);
+
+import VueHighlightJS from "vue-highlight.js";
+import json from "highlight.js/lib/languages/json";
+
+Vue.use(VueHighlightJS, {
+    languages: {
+        json
+    }
+});
 window.onload = function() {
     new Vue({
         el: "#vue-root",

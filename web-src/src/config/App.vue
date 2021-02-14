@@ -71,9 +71,9 @@
       <input type="text" v-model="nameLength" @keydown="nameLengthKeypress" placeholder="Name Length" :class="nameLengthBad ? 'bad' : ''"
              @keydown.space.prevent="" class="input">
     </p>
-    <pre v-highlightjs="json" style="margin-top: 10vh;">
-      <code class="json"></code>
-    </pre>
+    <highlight-code lang="json">
+      {{json}}
+    </highlight-code>
     <p>
       <input type="button" @click="downloadClick" class="button" value="Download Config">
     </p>
@@ -197,7 +197,7 @@ module.exports = {
       });
     },
     downloadClick() {
-      download(this.json, "dapper image host.sxcu");
+      download(JSON.stringify(this.config), "dapper image host.sxcu");
     },
     removeDomainClick(e) {
       this.domains.splice(e.currentTarget.getAttribute("data-index"), 1);
@@ -207,7 +207,7 @@ module.exports = {
     }
   },
   computed: {
-    json() {
+    config() {
       let obj = {
         Version: "13.1.0",
         DestinationType: "ImageUploader, FileUploader, TextUploader",
@@ -254,7 +254,10 @@ module.exports = {
         if (this.expireAfter) obj.Parameters.expireAfter = this.expireAfter;
         if (this.expireUses) obj.Parameters.expireUses = this.expireUses;
       }
-      return JSON.stringify(obj, null, 2);
+      return obj;
+    },
+    json() {
+      return JSON.stringify(this.config, null, 2);
     }
   },
   updated() {
