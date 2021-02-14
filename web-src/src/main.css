@@ -1,0 +1,167 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    @apply bg-white text-black dark:bg-midnight dark:text-white select-none;
+}
+
+@layer utilities {
+    .text-gradient {
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+}
+
+.gradient-bg {
+    @apply bg-gradient-to-r from-amber-500 via-red-300 to-purple-500;
+}
+
+.important-text {
+    @apply gradient-bg text-gradient font-bold;
+}
+
+.line-height-normal {
+    line-height: normal;
+}
+
+.reveal-underline {
+    position: relative;
+}
+.reveal-underline::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    bottom: -8%;
+    right: 0;
+    @apply gradient-bg;
+    clip-path: inset(0% 100% 0% 0%);
+    transition: clip-path 0.5s;
+}
+.reveal-underline:hover::after {
+    clip-path: inset(0% 0% 0% 0%);
+}
+
+.container {
+    @apply m-3 px-3 py-6 bg-noon dark:bg-twilight rounded;
+}
+
+.link {
+    @apply important-text reveal-underline;
+}
+
+.input {
+    @apply border-black bg-noon dark:border-white dark:bg-twilight border-b-4 text-6xl border-solid outline-none rounded-t-sm px-1;
+}
+
+.button {
+    @apply border-black bg-noon dark:border-white dark:bg-twilight border-4 text-6xl border-solid outline-none rounded-sm px-1;
+}
+
+.checkbox {
+    transform: scale(4);
+    margin: 25px;
+}
+
+.label {
+    @apply text-3xl;
+}
+
+/* purgecss start ignore */
+.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
+    color: #abb2bf;
+    background: #282c34;
+}
+
+.hljs-comment,
+.hljs-quote {
+    color: #5c6370;
+    font-style: italic;
+}
+
+.hljs-doctag,
+.hljs-keyword,
+.hljs-formula {
+    color: #c678dd;
+}
+
+.hljs-section,
+.hljs-name,
+.hljs-selector-tag,
+.hljs-deletion,
+.hljs-subst {
+    color: #e06c75;
+}
+
+.hljs-literal {
+    color: #56b6c2;
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-attribute,
+.hljs-meta-string {
+    color: #98c379;
+}
+
+.hljs-built_in,
+.hljs-class .hljs-title {
+    color: #e6c07b;
+}
+
+.hljs-attr,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-type,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-number {
+    color: #d19a66;
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link,
+.hljs-meta,
+.hljs-selector-id,
+.hljs-title {
+    color: #61aeee;
+}
+
+.hljs-emphasis {
+    font-style: italic;
+}
+
+.hljs-strong {
+    font-weight: bold;
+}
+
+.hljs-link {
+    text-decoration: underline;
+}
+.hljs span {
+    background-color: initial;
+}
+/* purgecss end ignore */
+
+
+code {
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+/* purgecss start ignore */
+.success {
+    @apply text-green-400;
+}
+
+.failure {
+    @apply text-red-400;
+}
+/* purgecss end ignore */

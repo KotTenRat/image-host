@@ -5,11 +5,10 @@ config.js
 data/*
 images/*
 web/*
-web-src/config/
 
-configcreator/dist/*
-configcreator/node_modules/
-configcreator/src/config.js
+web-src/node_modules
+web-src/src/config/config.js
+
 node_modules/
 
 .*/
