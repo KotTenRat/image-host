@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+/* Yes, I'm aware that this is Google Fonts. I hate it too. If you want to change how I source the font, be my guest. */
+
 body {
     @apply bg-white text-black dark:bg-midnight dark:text-white select-none;
 }

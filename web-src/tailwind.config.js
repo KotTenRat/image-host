@@ -7,6 +7,10 @@ module.exports = {
             twilight: "#3F3F7F",
             noon: "#C7C7FF",
             ...colors
+        },
+        fontFamily: {
+            sans: ["Poppins", "sans-serif"],
+            serif: ["Palatino Linotype", "serif"]
         }
     },
     darkMode: "media"
