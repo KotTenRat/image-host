@@ -1,4 +1,3 @@
-const express = require("express");
 const config = require("./config");
 const request = require("superagent");
 
@@ -8,12 +7,12 @@ let keys = [];
 let ratelimits = new Map();
 
 async function setSubdomain(subdomain, key) {
-    const parts = subdomain.split(".");
-    if (parts.length !== 3) {
+    const match = subdomain.toLowerCase().match(/^((?!-)[a-z0-9\-]*[a-z0-9])\.([a-z0-9\-]+\.[a-z0-9\-]{2,})$/);
+    if (!match) {
         throw new Error("Subdomain must be in format a.b.c");
     }
-    const recordName = parts[0];
-    const zoneName = `${parts[1]}.${parts[2]}`;
+
+    const [ , recordName, zoneName] = match;
 
     if (!domains.includes(zoneName)) {
         throw new Error(`Domain ${zoneName} not found`);

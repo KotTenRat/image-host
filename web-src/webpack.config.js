@@ -88,7 +88,7 @@ module.exports = (env, argv) => ({
             template: f,
             filename: f.split("/").slice(1).join("/"),
             meta: {
-                referer: "no-referrer",
+                referrer: "no-referrer",
                 keywords: "sharex, image host, dapper, uploader, files, sxcu, pomf",
                 author: require("./package.json").author
             },
