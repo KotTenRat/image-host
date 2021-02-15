@@ -1,81 +1,81 @@
 <template>
-  <div class="flex flex-col items-center m-16">
-    <p class="text-3xl mb-16">Want to head back home? Click <a href="/" class="link">here</a>.</p>
+  <div class="flex flex-col items-center m-dyn">
+    <p class="text-3xl mb-16">Go back to <a href="/" class="link" title="Go back home">the home page</a>.</p>
 
-    <p class="my-4">
+    <p class="my-4 input-holder">
       <input type="text" v-model="apiKey" placeholder="API Key" :class="apiKey ? '' : 'bad'"
-             @keydown.space.prevent="" class="input">
+             @keydown.space.prevent="" class="input w-full">
     </p>
-    <p v-if="apiKey && allDomainsNotClicked" class="my-4">
+    <p v-if="apiKey && allDomainsNotClicked" class="my-4 input-holder">
       <input type="button" @click="allDomainsClick" value="Use All Domains" class="button">
     </p>
-    <p v-if="apiKey" v-for="(domain, index) of domains" class="fill my-4">
+    <p v-if="apiKey" v-for="(domain, index) of domains" class="fill my-4 input-holder">
       <input ref="domains" type="text" v-model="domain.value" placeholder="Domain"
              @keydown.enter.passive="domainKeypress" :class="domain.value ? 'fill-priority' : 'bad fill-priority'"
              @keydown.space.prevent="" class="input">
       <input type="button" value="Add" @click="addDomainClick" class="button">
       <input v-if="!domain.required" type="button" value="Remove" @click="removeDomainClick" :data-index="index" class="button">
     </p>
-    <p v-if="domains[0].value && apiKey" class="my-4">
+    <p v-if="domains[0].value && apiKey" class="my-4 input-holder">
       <label class="label">
         <input type="checkbox" v-model="encryption" style="margin-top: 3vh;" class="checkbox">Encryption
       </label>
     </p>
-    <p v-if="encryption" class="my-4">
+    <p v-if="encryption" class="my-4 input-holder">
       <input type="text" v-model="encKey" placeholder="Key / Key Length" @keydown="keyLengthKeypress"
              @keydown.space.prevent="" class="input">
     </p>
-    <p v-if="domains[0].value && apiKey" class="my-4">
+    <p v-if="domains[0].value && apiKey" class="my-4 input-holder">
       <label class="label">
         <input type="checkbox" v-model="embed" style="margin-top: 3vh;" class="checkbox">Embed
       </label>
     </p>
-    <p v-if="embed" class="my-4">
+    <p v-if="embed" class="my-4 input-holder">
       <label class="label">
         <input type="color" v-model="embedColor">Embed Color
       </label>
     </p>
-    <p v-if="embed" class="my-4">
+    <p v-if="embed" class="my-4 input-holder">
       <input type="text" placeholder="Embed Text" v-model="embedText" @keydown="embedTextKeydown" class="input">
     </p>
-    <p v-if="embed" class="my-4">
+    <p v-if="embed" class="my-4 input-holder">
       <input type="text" placeholder="Timezone" v-model="embedTimezone" @keydown="embedTimezoneKeydown" class="input">
     </p>
-    <p v-if="embed" class="my-4">
+    <p v-if="embed" class="my-4 input-holder">
       <label class="label">
         <input type="checkbox" v-model="embedMDY" style="margin-top: 3vh;" class="checkbox">M/D/Y Format
       </label>
     </p>
-    <p v-if="domains[0].value && enableExpire && apiKey" class="my-4">
+    <p v-if="domains[0].value && enableExpire && apiKey" class="my-4 input-holder">
       <label class="label">
         <input type="checkbox" v-model="expire" style="margin-top: 3vh;" class="checkbox">Expire
       </label>
     </p>
-    <p v-if="expire" class="my-4">
+    <p v-if="expire" class="my-4 input-holder">
       <input type="text" v-model="expireUses" placeholder="Uses before expire" :class="(!expireAfter && !expireUses) ? 'bad' : ''" @keydown="expireUsesKeydown" class="input">
     </p>
-    <p v-if="expire" class="my-4">
+    <p v-if="expire" class="my-4 input-holder">
       <input type="text" v-model="expireAfter" placeholder="MS before expire" :class="(!expireAfter && !expireUses) ? 'bad' : ''" @keydown="expireAfterKeydown" class="input">
     </p>
-    <p v-if="domains[0].value && apiKey" class="my-4">
+    <p v-if="domains[0].value && apiKey" class="my-4 input-holder">
       <label class="label">
         <input type="checkbox" v-model="showLink" style="margin-top: 3vh;" class="checkbox">Show Link on Discord
       </label>
     </p>
-    <p v-if="showLink" class="my-4">
+    <p v-if="showLink" class="my-4 input-holder">
       <label class="label">
         <input type="checkbox" v-model="compatSLoD" style="margin-top: 3vh;" class="checkbox">Compatibility SLoD
       </label>
     </p>
-    <p v-if="domains[0].value && apiKey" class="my-4">
+    <p v-if="domains[0].value && apiKey" class="my-4 input-holder">
       <input type="text" v-model="nameLength" @keydown="nameLengthKeypress" placeholder="Name Length" :class="nameLengthBad ? 'bad' : ''"
              @keydown.space.prevent="" class="input">
     </p>
-    <highlight-code lang="json">
+    <highlight-code lang="json" class="w-full">
       {{json}}
     </highlight-code>
-    <p>
-      <input type="button" @click="downloadClick" class="button" value="Download Config">
+    <p class="input-holder my-4">
+      <input type="button" @click="downloadClick" class="button" value="Download">
     </p>
   </div>
 </template>

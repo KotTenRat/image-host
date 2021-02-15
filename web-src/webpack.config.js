@@ -42,7 +42,11 @@ module.exports = (env, argv) => ({
                                     purgecss({
                                         content: [
                                             "./src/**/*.html",
-                                            "./src/**/*.vue"
+                                            "./src/**/*.vue",
+                                            "./src/**/*.js"
+                                        ],
+                                        css: [
+                                            "./src/**/*.css"
                                         ]
                                     }),
                                     "cssnano"
@@ -90,7 +94,8 @@ module.exports = (env, argv) => ({
             meta: {
                 referrer: "no-referrer",
                 keywords: "sharex, image host, dapper, uploader, files, sxcu, pomf",
-                author: require("./package.json").author
+                author: require("./package.json").author,
+                viewport: "width=device-width, initial-scale=1.0"
             },
             hash: argv.mode === "production"
         }, favicon === null ? {} : {favicon}))

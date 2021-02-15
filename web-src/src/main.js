@@ -12,6 +12,7 @@ if (normalizedPath === "/domains") {
             a.href = `https://${domain}/`;
             a.innerText = domain;
             a.className = "link";
+            a.title = `DIH domain ${domain}`;
             const p = document.createElement("p");
             p.appendChild(a);
             p.className = "text-3xl";
