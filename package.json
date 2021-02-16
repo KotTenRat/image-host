@@ -4,8 +4,7 @@
   "description": "An image host, like pomf.se",
   "main": "index.js",
   "scripts": {
-    "start": "node .",
-    "build-web": "node scripts/build-web"
+    "start": "node ."
   },
   "keywords": [
     "image",
@@ -14,7 +13,7 @@
     "sharex"
   ],
   "author": "dapper#0666",
-  "license": "LICENSE.md",
+  "license": "SEE LICENSE IN LICENSE.md",
   "dependencies": {
     "aes-js": "^3.1.2",
     "argon2": "^0.26.2",
@@ -34,5 +33,6 @@
   },
   "optionalDependencies": {
     "spdy": "^4.0.2"
-  }
+  },
+  "repository": "github:dapper-gh/image-host"
 }
