@@ -18,6 +18,14 @@ module.exports = {
         keyLengthLimit: 1024, // same Infinity trick as above
         uploadRatelimit: 2500 // 0 for no ratelimit
     },
-    name: "Dapper Image Host",
-    port: 12055
+    http: {
+        protocol: "spdy", // can be one of "http" or "spdy" (will fallback to less advanced protocol if needed)
+        https: { // replace with false to disable https
+            key: "cert/key.pem",
+            cert: "cert/fullchain.pem",
+            port: 443
+        },
+        port: 80
+    },
+    name: "Dapper Image Host"
 };

@@ -11,6 +11,7 @@ const helmet = require("helmet");
 const config = require("./config");
 const {escape: escapeHTML} = require("html-escaper");
 const chokidar = require("chokidar");
+const providers = require("./http-providers");
 
 let apiKeys = [];
 const updateKeys = () => {
@@ -84,7 +85,15 @@ app.use(helmet({
   contentSecurityPolicy: false
 }));
 
+if (config.http.https) {
+  app.use((req, res, next) => {
+    if (!req.secure) return res.redirect(`https://${req.hostname}:${config.http.https.port}${req.url}`);
+    next();
+  });
+}
+
 app.use((req, res, next) => {
+  if (req.url.split("/").includes("..")) return res.status(400).send({error: "Bad request"});
   if (path.extname(req.url)) res.set("X-Robots-Tag", "noindex");
   next();
 });
@@ -464,6 +473,27 @@ app.use((req, res) => {
   res.status(404).type("text/plain").send("this is a 404");
 });
 
-app.listen(config.port, function() {
-  console.log(`Server is listening on port ${config.port}!`);
-});
+if (!(config.http.protocol in providers)) {
+  console.error(`Protocol "${config.http.protocol}" does not exist!`);
+  process.exit(1);
+}
+
+const provider = providers[config.http.protocol]();
+if (!config.http.https && !provider.createHTTP) {
+  console.error(`Protocol "${config.http.protocol}" does not support non-encrypted connections!`);
+  process.exit(1);
+}
+
+if (provider.createHTTP) {
+  provider.createHTTP(app).listen(config.http.port, function() {
+    console.log(`Unsecured server is listening on port ${config.http.port}`);
+  });
+}
+if (provider.createHTTPS && config.http.https) {
+  provider.createHTTPS({
+    key: fs.readFileSync(config.http.https.key),
+    cert: fs.readFileSync(config.http.https.cert)
+  }, app).listen(config.http.https.port, function() {
+    console.log(`Secured server is listening on port ${config.http.https.port}`);
+  });
+}
