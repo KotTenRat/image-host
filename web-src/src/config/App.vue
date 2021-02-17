@@ -209,7 +209,7 @@ module.exports = {
       this.domains = domainsMapped;
     },
     downloadClick() {
-      download(JSON.stringify(this.config), "dapper image host.sxcu");
+      download(JSON.stringify(this.config), `${config.name}.sxcu`);
     },
     removeDomainClick(e) {
       this.domains.splice(e.currentTarget.getAttribute("data-index"), 1);
