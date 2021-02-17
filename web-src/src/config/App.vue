@@ -6,7 +6,7 @@
       <input type="text" v-model="apiKey" placeholder="API Key" :class="apiKey ? '' : 'bad'"
              @keydown.space.prevent="" class="input w-full">
     </p>
-    <p v-if="apiKey && allDomainsNotClicked" class="my-4 input-holder">
+    <p v-if="apiKey && allDomainsNotClicked && allDomainsData.length !== 0" class="my-4 input-holder">
       <input type="button" @click="allDomainsClick" value="Use All Domains" class="button">
     </p>
     <p v-if="apiKey" v-for="(domain, index) of domains" class="fill my-4 input-holder">
@@ -67,6 +67,16 @@
         <input type="checkbox" v-model="compatSLoD" style="margin-top: 3vh;" class="checkbox">Compatibility SLoD
       </label>
     </p>
+    <p v-if="domains[0].value && apiKey && !showLink && allDomainsData.length !== 0" class="my-4 input-holder">
+      <label class="label">
+        <input type="checkbox" v-model="spoilerGlitch" style="margin-top: 3vh;" class="checkbox">Spoiler Glitch
+      </label>
+    </p>
+    <p v-if="spoilerGlitch" class="my-4 input-holder">
+      <label class="label">
+        <input type="checkbox" v-model="spoilerShowFilename" style="margin-top: 3vh;" class="checkbox">Show File Name
+      </label>
+    </p>
     <p v-if="domains[0].value && apiKey" class="my-4 input-holder">
       <input type="text" v-model="nameLength" @keydown="nameLengthKeypress" placeholder="Name Length" :class="nameLengthBad ? 'bad' : ''"
              @keydown.space.prevent="" class="input">
@@ -97,7 +107,7 @@ module.exports = {
   data: () => ({
     apiKey: "",
     domains: [{
-      value: location.hostname,
+      value: location.host,
       required: true
     }],
     encryption: null,
@@ -116,8 +126,12 @@ module.exports = {
     compatSLoD: false,
     embedTimezone: "",
     allDomainsNotClicked: true,
-    enableExpire: config.enableExpire
+    enableExpire: config.enableExpire,
+    spoilerGlitch: false,
+    spoilerShowFilename: false,
+    allDomainsData: []
   }),
+
   methods: {
     addDomain() {
       this.domains.push({
@@ -187,14 +201,12 @@ module.exports = {
     },
     allDomainsClick() {
       this.allDomainsNotClicked = false;
-      fetch("/api/domains").then(r => r.json()).then(j => {
-        let domainsMapped = j.map(d => ({
-          required: false,
-          value: d
-        }));
-        if (domainsMapped[0]) domainsMapped[0].required = true;
-        this.domains = domainsMapped;
-      });
+      let domainsMapped = this.allDomainsData.map(d => ({
+        required: false,
+        value: d
+      }));
+      if (domainsMapped[0]) domainsMapped[0].required = true;
+      this.domains = domainsMapped;
     },
     downloadClick() {
       download(JSON.stringify(this.config), "dapper image host.sxcu");
@@ -206,7 +218,9 @@ module.exports = {
       this.addDomain();
     }
   },
+
   computed: {
+
     config() {
       let obj = {
         Version: "13.1.0",
@@ -226,10 +240,7 @@ module.exports = {
       if (domain) {
         obj.RequestURL = `${location.protocol}//${this.domains[0].value}/upload`;
         obj.DeletionURL = `${location.protocol}//${domain}/delete/$json:deletionKey$/$json:name$`;
-        obj.URL = ((this.showLink && !this.compatSLoD) ? "\u200C" : "")
-            + (this.encryption ? `${location.protocol}//${domain}/$json:encryptionKey$/$json:name$`
-                : `${location.protocol}//${domain}/$json:name$`) +
-            ((this.showLink && this.compatSLoD) ? "# \u200C" : "");
+        obj.URL = this.url;
       }
       if (this.encryption) {
         obj.Parameters.encryption = "yes";
@@ -256,14 +267,53 @@ module.exports = {
       }
       return obj;
     },
+
     json() {
       return JSON.stringify(this.config, null, 2);
+    },
+
+    url() {
+      let viewDomain = this.domains.length > 1 ? "$json:random$" : this.domains[0].value;
+      let uploadDomain = this.spoilerGlitch ? this.allDomainsData[0] : viewDomain;
+
+      let path = this.encryption ? "$json:encryptionKey$/$json:name$" : "$json:name$";
+
+      let baseURL = `${location.protocol}//${uploadDomain}/${path}`;
+
+      if (this.showLink) {
+        if (this.compatSLoD) {
+          return `${baseURL}# \u200C`;
+        } else {
+          return `\u200C${baseURL}`;
+        }
+      } else if (this.spoilerGlitch) {
+        let spoilers = "||\u200B||".repeat(200); // Yes, this is stolen. I can't be bothered figuring it out myself, and it seems vaguely correct.
+
+        if (this.spoilerShowFilename) {
+          return `<${location.protocol}//${viewDomain}/${path}> ${spoilers}${baseURL}`;
+        } else {
+          return `<${location.protocol}//${viewDomain}/> ${spoilers}${baseURL}`
+        }
+      } else {
+        return baseURL;
+      }
     }
   },
+
   updated() {
     if (this.pendingDomainUpdate) {
       this.pendingDomainUpdate = false;
       this.$refs.domains[this.$refs.domains.length - 1].focus();
+    }
+  },
+
+  created() {
+    fetch("/api/domains").then(r => r.json()).then(d => this.allDomainsData = d);
+  },
+
+  watch: {
+    showLink(newV, _oldV) {
+      if (newV) this.spoilerGlitch = false;
     }
   }
 };
