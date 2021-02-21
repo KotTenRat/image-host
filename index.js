@@ -233,7 +233,7 @@ app.post("/upload", (req, res, next) => {
             deletionKey
           };
           if (randomChoice) json.random = randomChoice;
-          json.deducedURL = `https://${json.random || req.get("Host")}/${json.encryptionKey}/${json.name}`;
+          json.deducedURL = `${req.secure ? "https" : "http"}://${encodeURI(json.random || req.get("Host"))}/${encodeURIComponent(json.encryptionKey)}/${encodeURIComponent(json.name)}`;
           if (embed) embedData.set(name, embed);
           if (expiry) expiryData.set(name, expiry);
           const uploads = domainAnalytics.get(req.get("Host")) || 0;
@@ -259,7 +259,7 @@ app.post("/upload", (req, res, next) => {
           console.log(`API key ${key} uploaded file ${name}`);
           let json = {success: true, name, deletionKey};
           if (randomChoice) json.random = randomChoice;
-          json.deducedURL = `https://${json.random || req.get("Host")}/${json.name}`;
+          json.deducedURL = `${req.secure ? "https" : "http"}://${encodeURI(json.random || req.get("Host"))}/${encodeURIComponent(json.name)}`;
           if (embed) embedData.set(name, embed);
           if (expiry) expiryData.set(name, expiry);
           const uploads = domainAnalytics.get(req.get("Host")) || 0;
@@ -342,7 +342,7 @@ app.get(["/:encKey/:name", "/raw/:encKey/:name"], async (req, res, next) => {
 <head>
 <meta property="og:title" content="${escapeHTML(embed.text || config.name)}">
 <meta property="theme-color" content="#${("000000" + embed.color.toString(16).toUpperCase()).slice(-6)}">
-<meta property="og:image" content="https://${escapeHTML(req.get("Host"))}/raw/${req.params.encKey}/${req.params.name}">
+<meta property="og:image" content="https://${escapeHTML(req.get("Host"))}/raw/${escapeHTML(encodeURIComponent(req.params.encKey))}/${escapeHTML(encodeURIComponent(req.params.name))}">
 <meta property="twitter:card" content="summary_large_image">
 <meta property="og:description" content="Uploaded at ${embed.uploadedAt}">
 </head>
