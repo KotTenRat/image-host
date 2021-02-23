@@ -1,4 +1,5 @@
 import "./main.css";
+import "regenerator-runtime/runtime";
 
 const normalizedPath = location.pathname.endsWith("/") ? location.pathname.slice(0, -1) : location.pathname;
 

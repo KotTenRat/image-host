@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "highlight.js": "^10.6.0",
+    "regenerator-runtime": "^0.13.7",
     "vue": "^2.6.12",
     "vue-highlight.js": "^4.0.0-beta"
   }

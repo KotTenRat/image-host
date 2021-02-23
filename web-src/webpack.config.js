@@ -77,7 +77,7 @@ module.exports = (env, argv) => ({
                         loader: "babel-loader",
                         options: {
                             presets: [
-                                "@babel/preset-env"
+                                ["@babel/preset-env", {useBuiltIns: "entry", corejs: 3}]
                             ],
                             plugins: [
                                 "@babel/plugin-syntax-dynamic-import"
