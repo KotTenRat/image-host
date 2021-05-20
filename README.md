@@ -1,4 +1,8 @@
-# Dapper Image Host
+Actually, i did not realized that dapper-gh deleted the project.
+This is one of newer forks.
+# IT'S NOT MADE BY ME BUT https://github.com/dapper-gh/
+
+Dapper Image Host
 Dapper Image Host is an open-source image host featuring encryption, embedding (on Discord and other social media), Cloudflare integration, and Discord OAuth2 integration.
 
 There is no longer a live version running :(
